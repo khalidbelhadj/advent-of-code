@@ -1,22 +1,14 @@
 #include <stdio.h>
-
-int string_to_int(char str[])
-{
-    int sum = 0;
-    int i = 1;
-    char ch = str[0]; 
-    while(ch != '\0' && ch != '\n')
-    {
-        sum = 10*sum + (int)(ch - '0');
-        ch = str[i];
-        i++;
-    }
-    return sum;
-}
-
+#include <stdlib.h>
 int main(int argc, char *argv[])
 {
     FILE *file = fopen("input.txt", "r");
+
+    if (file == NULL)
+    {
+        printf("File was not read\n");
+        return 1;
+    }
 
     char buf[256];
     int sum = 0;
@@ -36,15 +28,14 @@ int main(int argc, char *argv[])
             }
             sum = 0;
         }
-        else
-            sum += string_to_int(buf);
+        else sum += atoi(buf);
     }
-    int temp = 0;
+    sum = 0;
     for(int i = 0; i < 3; i++)
     {
-        temp += max[i];
+        sum += max[i];
     }
-    printf("Sum of top 3 values is %d\n", temp);
+    printf("Sum of top 3 values is %d\n", sum);
     fclose(file);
 
     return 0;
