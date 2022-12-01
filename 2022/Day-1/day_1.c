@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 int main(int argc, char *argv[])
 {
     FILE *file = fopen("input.txt", "r");
@@ -13,9 +12,8 @@ int main(int argc, char *argv[])
     }
 
     char buf[256];
-    int sum = 0;
-    int top_3[] = {0, 0, 0};
-    int max = 0;
+    int top_3[3];
+    int sum, max;
 
     while (fgets(buf, sizeof(buf), file))
     {
