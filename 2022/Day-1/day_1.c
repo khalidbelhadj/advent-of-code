@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+
+
 int main(int argc, char *argv[])
 {
     FILE *file = fopen("input.txt", "r");
@@ -12,30 +14,29 @@ int main(int argc, char *argv[])
 
     char buf[256];
     int sum = 0;
-    int max[] = {0, 0, 0};
+    int top_3[] = {0, 0, 0};
+    int max = 0;
 
-    while(fgets(buf, sizeof(buf), file))
+    while (fgets(buf, sizeof(buf), file))
     {
-        if (buf[0] == '\n')
+        if (buf[0] != '\n')
         {
-            for(int i = 0; i < 3; i++)
-            {
-                if (sum >= max[i])
-                {
-                    max[i] = sum;
-                    break;
-                }
-            }
-            sum = 0;
+            sum += atoi(buf);
+            continue;
         }
-        else sum += atoi(buf);
+        for (int i = 0; i < 3; i++)
+        {
+            max = sum >= max ? sum : max;
+            if (sum >= top_3[i])
+            {
+                top_3[i] = sum;
+                break;
+            }
+        }
+        sum = 0;
     }
-    sum = 0;
-    for(int i = 0; i < 3; i++)
-    {
-        sum += max[i];
-    }
-    printf("Sum of top 3 values is %d\n", sum);
+    printf("Part A: %d\n", max);
+    printf("Part B: %d\n", top_3[0] + top_3[1] + top_3[2]);
     fclose(file);
 
     return 0;
