@@ -33,8 +33,8 @@ int main(int argc, char *argv[])
         }
         sum = 0;
     }
-    printf("Part A: %d\n", max);
-    printf("Part B: %d\n", top_3[0] + top_3[1] + top_3[2]);
+    printf("Part 1: %d\n", max);
+    printf("Part 2: %d\n", top_3[0] + top_3[1] + top_3[2]);
     fclose(file);
 
     return 0;
