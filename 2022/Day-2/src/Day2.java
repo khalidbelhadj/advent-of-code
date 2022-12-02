@@ -16,6 +16,7 @@ public class Day2 {
             }
             System.out.println("Part 1: " + sum1);
             System.out.println("Part 2: " + sum2);
+            buf.close();
         } catch (Exception e) {
             System.err.println("File not read");
         }
