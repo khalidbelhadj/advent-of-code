@@ -16,7 +16,6 @@ def main():
            
             if (counter == 0 and backpacks != 0):
                 badge = set.intersection(*[set(b) for b in backpacks])
-                print(badge)
                 badges.append(priority(list(badge)[0]))
                 backpacks = []
                 
