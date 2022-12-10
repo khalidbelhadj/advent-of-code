@@ -1,21 +1,27 @@
 import Data.Functor
 import Data.List.Split
 
+type CycleCount = Int
+type Immediate = Int
+type XVal = (Cycle, Int)
+type Instruction = (CycleCount, Immediate)
+type Bitmap = [Bool]
+
 -- [(instruction, immediate)] -> [(cycle count, immediate)]
-readInstruction :: [String] -> (Int, Int)
+readInstruction :: [String] -> Instruction
 readInstruction ["addx", y] = (2, read y :: Int)
 readInstruction ["noop"] = (1, 0)
 readInstruction _ = (0, 0)
 
 -- [(cycle count, immediate)] -> [(cycle number, X)]
-execute :: [(Int, Int)] -> [(Int, Int)]
+execute :: [Instruction] -> [XVal]
 execute xs = execute' $ (0, 1) : xs
   where
     execute' [] = []
     execute' [(a, b)] = [(a, b)]
     execute' ((a, b) : (c, d) : xs) = (a, b) : execute' ((a + c, b + d) : xs)
 
-getXAt :: Int -> [(Int, Int)] -> Int
+getXAt :: Int -> [XVal] -> Int
 getXAt _ [] = 1
 getXAt 0 _ = 1
 getXAt n [(a, b)]
@@ -26,13 +32,13 @@ getXAt n ((a, b) : (c, d) : xs)
   | n > a && n <= c = b
   | otherwise = getXAt n ((c, d) : xs)
 
-render :: [(Int, Int)] -> String
+render :: [XVal] -> String
 render = addNewline . map toStr . renderBitmap
   where
     inRange :: Int -> Int -> Bool
     inRange i x = i == x || i == x - 1 || i == x + 1
 
-    renderBitmap :: [(Int, Int)] -> [Bool]
+    renderBitmap :: [XVal] -> Bitmap
     renderBitmap [] = []
     renderBitmap [(_, _)] = []
     renderBitmap ((a, b) : (c, d) : xs) = [inRange (i `mod` 40) b | i <- [a .. (c - 1)]] ++ renderBitmap ((c, d) : xs)
@@ -62,6 +68,3 @@ main = do
 
   putStr "Part 2: \n"
   putStr $ render output
-
--- print (getXAt 20 input)
--- print input
