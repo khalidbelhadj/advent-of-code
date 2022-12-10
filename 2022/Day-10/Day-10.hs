@@ -7,14 +7,12 @@ type XVal = (Cycle, Int)
 type Instruction = (CycleCount, Immediate)
 type Bitmap = [Bool]
 
--- [(instruction, immediate)] -> [(cycle count, immediate)]
 readInstruction :: [String] -> Instruction
 readInstruction :: [String] -> Instruction
 readInstruction ["addx", y] = (2, read y :: Int)
 readInstruction ["noop"] = (1, 0)
 readInstruction _ = (0, 0)
 
--- [(cycle count, immediate)] -> [(cycle number, X)]
 execute :: [Instruction] -> [XVal]
 execute :: [Instruction] -> [XVal]
 execute xs = execute' $ (0, 1) : xs
