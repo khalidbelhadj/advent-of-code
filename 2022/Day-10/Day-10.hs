@@ -9,11 +9,13 @@ type Bitmap = [Bool]
 
 -- [(instruction, immediate)] -> [(cycle count, immediate)]
 readInstruction :: [String] -> Instruction
+readInstruction :: [String] -> Instruction
 readInstruction ["addx", y] = (2, read y :: Int)
 readInstruction ["noop"] = (1, 0)
 readInstruction _ = (0, 0)
 
 -- [(cycle count, immediate)] -> [(cycle number, X)]
+execute :: [Instruction] -> [XVal]
 execute :: [Instruction] -> [XVal]
 execute xs = execute' $ (0, 1) : xs
   where
@@ -21,6 +23,7 @@ execute xs = execute' $ (0, 1) : xs
     execute' [(a, b)] = [(a, b)]
     execute' ((a, b) : (c, d) : xs) = (a, b) : execute' ((a + c, b + d) : xs)
 
+getXAt :: Int -> [XVal] -> Int
 getXAt :: Int -> [XVal] -> Int
 getXAt _ [] = 1
 getXAt 0 _ = 1
@@ -33,11 +36,13 @@ getXAt n ((a, b) : (c, d) : xs)
   | otherwise = getXAt n ((c, d) : xs)
 
 render :: [XVal] -> String
+render :: [XVal] -> String
 render = addNewline . map toStr . renderBitmap
   where
     inRange :: Int -> Int -> Bool
     inRange i x = i == x || i == x - 1 || i == x + 1
 
+    renderBitmap :: [XVal] -> Bitmap
     renderBitmap :: [XVal] -> Bitmap
     renderBitmap [] = []
     renderBitmap [(_, _)] = []
