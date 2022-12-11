@@ -17,7 +17,7 @@ class Monkey:
     inspections: int = 0
 
     def inspect(self) -> Tuple[int, int]:
-        item = self.items.pop(0)
+        item: int = self.items.pop(0)
         item = self.operation(item)
         self.inspections += 1
         return (self.true_monkey, item) if item % self.test == 0 else (self.false_monkey, item)
@@ -35,11 +35,11 @@ def throw(from_monkey: Monkey, monkeys: List[Monkey]) -> None:
 def parse_monkey(text: str) -> Monkey | None:
     components: List[str] = text.split('\n  ')
     try:
-        items = list(map(int, findall(r'\d+', components[1])))
-        operation = parse_operation(components[2])
-        test = int(search('Test: divisible by (\d+)', components[3]).group(1))
-        true_monkey = int(search('  If true: throw to monkey (\d+)', components[4]).group(1))
-        false_monkey = int(search('  If false: throw to monkey (\d+)', components[5]).group(1))
+        items: List[int] = list(map(int, findall(r'\d+', components[1])))
+        operation: Callable = parse_operation(components[2])
+        test: int = int(search('Test: divisible by (\d+)', components[3]).group(1))
+        true_monkey: int = int(search('  If true: throw to monkey (\d+)', components[4]).group(1))
+        false_monkey: int = int(search('  If false: throw to monkey (\d+)', components[5]).group(1))
         return Monkey(items, operation, test, true_monkey, false_monkey)
     except:
         print('Error parsing monkey')
@@ -47,17 +47,17 @@ def parse_monkey(text: str) -> Monkey | None:
 
 
 def parse_monkeys() -> List[Monkey]:
-    monkey_list = []
+    monkey_list: List[Monkey] = []
     with open('input.txt') as file:
-        monkeys_raw = file.read().split('\n\n')
+        monkeys_raw: List[str] = file.read().split('\n\n')
         for monkey in monkeys_raw:
             monkey_list.append(parse_monkey(monkey))
     return monkey_list
 
 
 def parse_operation(text: str) -> Callable:
-    operator = search('Operation: new = old (.*) (.*)', text).group(1)
-    operand = search('Operation: new = old (.*) (.*)', text).group(2)
+    operator: str = search('Operation: new = old (.*) (.*)', text).group(1)
+    operand: str = search('Operation: new = old (.*) (.*)', text).group(2)
 
     if operand == 'old':
         return (lambda x: x * x)
@@ -76,8 +76,8 @@ def solve(monkey_list: List[Monkey], rounds) -> int:
 
 
 def main():
-    monkey_list_1 = parse_monkeys()
-    monkey_list_2 = parse_monkeys()
+    monkey_list_1: List[Monkey] = parse_monkeys()
+    monkey_list_2: List[Monkey] = parse_monkeys()
 
     print(f'Part 1: {solve(monkey_list_1, 20)}')
 
