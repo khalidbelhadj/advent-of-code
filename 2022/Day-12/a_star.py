@@ -13,16 +13,22 @@ class Node:
 
     def f(self):
         return self.g + self.h
+
     def __lt__(self, other):
         return self.f() < other.f()
+
     def __le__(self, other):
         return self.f() <= other.f()
+
     def __eq__(self, other):
         return self.position == other.position
+
     def __ne__(self, other):
         return self.position != other.position
+
     def __gt__(self, other):
         return self.f() > other.f()
+
     def __ge__(self, other):
         return self.f() >= other.f()
 
@@ -65,17 +71,13 @@ def traversable(start: Point, neighbour: Point, grid: Grid) -> bool:
     return True
 
 
-def a_star(grid: Grid, start: Node, end: Node) -> int:
+def a_star(grid: Grid, start: Node, end: Node) -> int | float:
     '''A* algorithm, returns the length of the shortest path'''
 
     visited: Set[Point] = set()
     to_visit: List[Node] = [start]
     while (current := hq.heappop(to_visit)) != end:
 
-        if len(to_visit) == 0:
-            print('No path found')
-            return 10**10
-        
         visited.add(current.position)
 
         if current == end:
@@ -99,6 +101,10 @@ def a_star(grid: Grid, start: Node, end: Node) -> int:
 
                 if neighbour_node not in to_visit:
                     hq.heappush(to_visit, neighbour_node)
+
+        if len(to_visit) == 0:
+            # print('No path found')
+            return float('inf')
 
     trail_length = 0
     while current.parent:
@@ -128,40 +134,40 @@ def parse_grid(text: str) -> Tuple[Grid, Node, Node]:
     for i, row in enumerate(rows):
         col = []
         for j, elem in enumerate(row):
-            if elem == 'E':
+            if elem == 'S':
                 col.append(start := Node((i, j), 0, 0, float('inf'), None))
-            elif elem == 'a':
+            elif elem == 'E':
                 col.append(end := Node((i, j), 25, float('inf'), 0, None))
             else:
-                col.append(Node((i, j), ord(elem) - 97, float('inf'), float('inf'), None))
+                col.append(Node((i, j), ord(elem) - 97,
+                           float('inf'), float('inf'), None))
         grid.append(col)
     if start and end:
         start.h = distance(start.position, end.position)
     return (grid, start, end)
+
 
 def main():
     with open('input.txt', 'r') as file:
         grid: Grid
         start: Node
         end: Node
-        paths_from_a: Set[int] = set()
-        
+        paths_from_a: Set[int | float] = set()
+
         text: str = file.read()
-        # grid, start, end = parse_grid(text)
-        # print(f' Part 1: {a_star(grid, start, end)}')
-
         grid, start, end = parse_grid(text)
-        print(f' Part 2: {a_star(grid, start, end)}')
-        # text = text.replace('S', 'a')
-        # counter: int = 1
-        # while 'S' in (current_grid := replace_occurence(counter, text, 'a', 'S')):
-        #     print('current grid: ', current_grid)
-        #     counter += 1
-        #     grid, start, end = parse_grid(current_grid)
-        #     paths_from_a.add(a_star(grid, start, end))
-        #     current_grid = current_grid.replace('S', 'a')
-        # print(f' Part 2: {min(paths_from_a)}')
+        print(f' Part 1: {a_star(grid, start, end)}')
 
+        # VERY slow brute force way, but it works
+        # Could somehow search from end to the next 'a'
+        text = text.replace('S', 'a')
+        counter: int = 1
+        while 'S' in (current_grid := replace_occurence(counter, text, 'a', 'S')):
+            counter += 1
+            grid, start, end = parse_grid(current_grid)
+            paths_from_a.add(a_star(grid, start, end))
+            current_grid = current_grid.replace('S', 'a')
+        print(f' Part 2: {min(paths_from_a)}')
 
 
 if __name__ == '__main__':
