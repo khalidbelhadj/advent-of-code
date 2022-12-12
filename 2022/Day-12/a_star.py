@@ -14,23 +14,12 @@ class Node:
     def f(self):
         return self.g + self.h
 
-    def __lt__(self, other):
-        return self.f() < other.f()
-
-    def __le__(self, other):
-        return self.f() <= other.f()
-
-    def __eq__(self, other):
-        return self.position == other.position
-
-    def __ne__(self, other):
-        return self.position != other.position
-
-    def __gt__(self, other):
-        return self.f() > other.f()
-
-    def __ge__(self, other):
-        return self.f() >= other.f()
+    def __lt__(self, other): return self.f() < other.f()
+    def __le__(self, other): return self.f() <= other.f()
+    def __eq__(self, other): return self.position == other.position
+    def __ne__(self, other): return self.position != other.position
+    def __gt__(self, other): return self.f() > other.f()
+    def __ge__(self, other): return self.f() >= other.f()
 
 
 Grid = List[List[Node]]
@@ -44,13 +33,11 @@ def get_node(point: Point, grid: Grid):
 
 def distance(a: Point, b: Point) -> int:
     '''Manhattan distance between two points a and b'''
-
     return abs(a[0] - b[0]) + abs(a[1] - b[1])
 
 
 def get_neighbours(position: Point) -> List[Point]:
     '''Get the neighbours of a position'''
-
     return [(position[0] + 1, position[1]),
             (position[0] - 1, position[1]),
             (position[0], position[1] + 1),
@@ -59,40 +46,31 @@ def get_neighbours(position: Point) -> List[Point]:
 
 def traversable(start: Point, neighbour: Point, grid: Grid) -> bool:
     '''Check if a path is traversable'''
-
     if not (0 <= neighbour[0] < len(grid) and 0 <= neighbour[1] < len(grid[0])):
         return False
 
-    start_height = get_node(start, grid).height
-    neighbour_height = get_node(neighbour, grid).height
-
-    if neighbour_height - start_height > 1:
+    if get_node(start, grid).height - get_node(neighbour, grid).height > 1:
         return False
     return True
 
 
 def a_star(grid: Grid, start: Node, end: Node) -> int | float:
     '''A* algorithm, returns the length of the shortest path'''
-
     visited: Set[Point] = set()
     to_visit: List[Node] = [start]
+
     while (current := hq.heappop(to_visit)) != end:
-
         visited.add(current.position)
-
         if current == end:
             break
 
         neighbours = get_neighbours(current.position)
-
         for neighbour_point in neighbours:
 
-            if ((not traversable(current.position, neighbour_point, grid))
-                    or (neighbour_point in visited)):
+            if not traversable(current.position, neighbour_point, grid) or neighbour_point in visited:
                 continue
 
             neighbour_node = get_node(neighbour_point, grid)
-
             if current.g < neighbour_node.g or neighbour_node not in to_visit:
                 neighbour_node.h = distance(neighbour_point, end.position)
                 neighbour_node.g = current.g + 1
@@ -107,15 +85,12 @@ def a_star(grid: Grid, start: Node, end: Node) -> int | float:
             return float('inf')
 
     trail_length = 0
-    while current.parent:
-        current = current.parent
-        trail_length += 1
+    while (current := current.parent): trail_length += 1
     return trail_length
 
 
 def replace_occurence(n: int, text: str, replace_from: str, replace_to: str) -> str:
     '''Swap the n-th occurence of a letter with another in text'''
-
     count: int = 0
     for i, c in enumerate(text):
         if c == replace_from and (count := count + 1) == n:
@@ -125,7 +100,6 @@ def replace_occurence(n: int, text: str, replace_from: str, replace_to: str) -> 
 
 def parse_grid(text: str) -> Tuple[Grid, Node, Node]:
     '''Parse input text into a grid'''
-
     rows: List[str] = text.split('\n')
     grid: List[List[Node]] = []
     start: Node = Node((-1, -1), 0, 0, 0, None)
@@ -149,14 +123,12 @@ def parse_grid(text: str) -> Tuple[Grid, Node, Node]:
 
 def main():
     with open('input.txt', 'r') as file:
-        grid: Grid
-        start: Node
-        end: Node
-        paths_from_a: Set[int | float] = set()
-
         text: str = file.read()
-        grid, start, end = parse_grid(text)
-        print(f' Part 1: {a_star(grid, start, end)}')
+        parsed_grid: Tuple[Grid, Node, Node] = parse_grid(text)
+        grid: Grid = parsed_grid[0]
+        start: Node = parsed_grid[1]
+        end: Node = parsed_grid[2]
+        paths_from_a: Set[int | float] = set()
 
         # VERY slow brute force way, but it works
         # Could somehow search from end to the next 'a'
