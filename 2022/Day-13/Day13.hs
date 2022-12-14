@@ -64,8 +64,7 @@ main :: IO ()
 main = do
   let input = lines <$> readFile "input.txt"
   comparedPairs <- map (uncurry treeCompare) <$> pairs <$> map (head . parseTree) <$> filter (/= "") <$> input
-  let numOfPairs = length comparedPairs
-  let correctOrderIndices = map fst $ filter (\(a, b) -> b == Just True || isNothing b) $ zip [1 .. numOfPairs] comparedPairs
+  let correctOrderIndices = map fst $ filter (\(a, b) -> b == Just True || isNothing b) $ zip [1 ..] comparedPairs
 
   putStr "Part 1: "
   print $ sum correctOrderIndices
