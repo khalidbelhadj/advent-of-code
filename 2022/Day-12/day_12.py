@@ -1,11 +1,11 @@
 import heapq as hq
-from typing import List, Tuple, Set, Any
+from typing import Any
 from dataclasses import dataclass
 
 
 @dataclass
 class Node:
-    position: Tuple[int, int]
+    position: tuple[int, int]
     height: int
     g: float
     h: float
@@ -22,8 +22,8 @@ class Node:
     def __ge__(self, other): return self.f() >= other.f()
 
 
-Grid = List[List[Node]]
-Point = Tuple[int, int]
+Grid = list[list[Node]]
+Point = tuple[int, int]
 
 
 def get_node(point: Point, grid: Grid):
@@ -36,7 +36,7 @@ def distance(a: Point, b: Point) -> int:
     return abs(a[0] - b[0]) + abs(a[1] - b[1])
 
 
-def get_neighbours(position: Point) -> List[Point]:
+def get_neighbours(position: Point) -> list[Point]:
     '''Get the neighbours of a position'''
     return [(position[0] + 1, position[1]),
             (position[0] - 1, position[1]),
@@ -56,8 +56,8 @@ def traversable(start: Point, neighbour: Point, grid: Grid) -> bool:
 
 def a_star(grid: Grid, start: Node, end: Node) -> int | float:
     '''A* algorithm, returns the length of the shortest path'''
-    visited: Set[Point] = set()
-    to_visit: List[Node] = [start]
+    visited: set[Point] = set()
+    to_visit: list[Node] = [start]
 
     while (current := hq.heappop(to_visit)) != end:
         visited.add(current.position)
@@ -98,10 +98,10 @@ def replace_occurence(n: int, text: str, replace_from: str, replace_to: str) -> 
     return text
 
 
-def parse_grid(text: str) -> Tuple[Grid, Node, Node]:
+def parse_grid(text: str) -> tuple[Grid, Node, Node]:
     '''Parse input text into a grid'''
-    rows: List[str] = text.split('\n')
-    grid: List[List[Node]] = []
+    rows: list[str] = text.split('\n')
+    grid: list[list[Node]] = []
     start: Node = Node((-1, -1), 0, 0, 0, None)
     end: Node = Node((-1, -1), 0, 0, 0, None)
 
@@ -124,11 +124,11 @@ def parse_grid(text: str) -> Tuple[Grid, Node, Node]:
 def main():
     with open('input.txt', 'r') as file:
         text: str = file.read()
-        parsed_grid: Tuple[Grid, Node, Node] = parse_grid(text)
+        parsed_grid: tuple[Grid, Node, Node] = parse_grid(text)
         grid: Grid = parsed_grid[0]
         start: Node = parsed_grid[1]
         end: Node = parsed_grid[2]
-        paths_from_a: Set[int | float] = set()
+        paths_from_a: set[int | float] = set()
 
         # VERY slow brute force way, but it works
         # Could somehow search from end to the next 'a'

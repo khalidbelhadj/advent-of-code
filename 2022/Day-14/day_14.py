@@ -1,14 +1,14 @@
-from typing import Tuple, List, Callable
+from typing import Callable
 from re import findall
 from colorama import Fore
 
 LEFT: int = 0
 RIGHT: int = 1
 
-Point = Tuple[int, int]
+Point = tuple[int, int]
 
-grid: List[List[bool | None]] = []
-grid_dimensions: Tuple[int, int] = (0, 0)
+grid: list[list[bool | None]] = []
+grid_dimensions: tuple[int, int] = (0, 0)
 start: Point = (0, 0)
 
 
@@ -24,7 +24,7 @@ def draw_between(a: Point, b: Point) -> None:
     else: print('Error: diagonal line')
 
 
-def draw_border(points: List[Point]) -> None:
+def draw_border(points: list[Point]) -> None:
     for i in range(len(points) - 1):
         draw_between(points[i], points[i + 1])
 
@@ -74,9 +74,7 @@ def drop(a: Point, part_2: bool) -> int:
 
 
 def extend(direction: int) -> None:
-    global grid
-    global start
-    global grid_dimensions
+    global grid, start, grid_dimensions
     f: Callable = (lambda x, y: x.append(y)) if direction else (lambda x, y: x.insert(0, y))
 
     for i, row in enumerate(grid):
@@ -105,9 +103,8 @@ def print_grid() -> None:
     print()
 
 
-def solve(file_text: str) -> Tuple[int, int]:
-    global grid
-    global grid_dimensions
+def solve(file_text: str) -> tuple[int, int]:
+    global grid, grid_dimensions
     units_of_sand_1: int = 0
     units_of_sand_2: int = 0
 
@@ -130,13 +127,12 @@ def solve(file_text: str) -> Tuple[int, int]:
 
 
 def init_grid(file_text: str) -> None:
-    global grid
-    global start
-    global grid_dimensions
+    global grid, start, grid_dimensions
+
     lines = list(map((lambda xs: xs.split('->')), file_text.splitlines()))
 
     # Finding width of the grid
-    x_values: List[int] = list(map(int, findall('(\d+),', file_text)))
+    x_values: list[int] = list(map(int, findall('(\d+),', file_text)))
     max_x: int = max(x_values)
     min_x: int = min(x_values)
 
@@ -150,7 +146,7 @@ def init_grid(file_text: str) -> None:
     grid_dimensions = (len(grid), len(grid[0]))
 
     # Finding the rock borders
-    rock_borders: List[List[Point]] = []
+    rock_borders: list[list[Point]] = []
     for i, line in enumerate(lines):
         rock_borders.append(list(map((lambda xs: tuple(map(int, findall('(\d+)', xs)))), line)))
 
