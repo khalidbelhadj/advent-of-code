@@ -4,36 +4,36 @@ from heapq import heappop, heappush
 valves: dict = {}
 distances: dict[str, dict] = {}
 valves_with_pressure: list = []
-TOTAL_TIME: int = 30
-
+TOTAL_TIME_1: int = 30
 
 def max_flow():
     queue = [(0, 0, "AA", ("AA",))]
-    highest_pressure_per_path = {}
+    highest_pressure_per_path: dict = {}
 
     while queue:
         pressure_released, time_elapsed, current_valve, current_path = heappop(queue)
 
-        if time_elapsed == TOTAL_TIME + 1: break
-
         for val, dist in distances[current_valve].items():
 
-            if val in current_path: continue
 
-            # 1 min for each unit dist +1 for valve opening time
-            next_time_elapsed = time_elapsed + dist + 1 
+            # 1 min for each unit dist +1 for valve opening time8
+            next_time_elapsed = time_elapsed + dist + 1
+
+            if val in current_path or next_time_elapsed > TOTAL_TIME_1: continue
             
             # Adding the total remaining time times the pressure released per minute from val
-            next_pressure_released = pressure_released + (TOTAL_TIME - next_time_elapsed) * valves[val][0]
+            next_pressure_released = pressure_released + (TOTAL_TIME_1 - next_time_elapsed) * valves[val][0]
+
 
             next_path = tuple(list(current_path) + [val])
 
             if (next_path not in highest_pressure_per_path or 
-                highest_pressure_per_path[next_path] > next_pressure_released):
+                highest_pressure_per_path[next_path] < next_pressure_released):
                 
                 highest_pressure_per_path[next_path] = next_pressure_released
                 heappush(queue, (next_pressure_released, next_time_elapsed, val, next_path))
-    return max(sorted(list(highest_pressure_per_path.values())))
+
+    return max(highest_pressure_per_path.values())
 
 
 def get_distances() -> None:
@@ -61,7 +61,7 @@ def get_distances() -> None:
         distances[start_valve] = dict(distances_from_valve)
 
 
-def parse() -> dict | None:
+def parse() -> None:
     global valves, valves_with_pressure
 
     with open('2022/Day-16/input.txt', 'r') as file:
@@ -83,20 +83,7 @@ def parse() -> dict | None:
 
 def main() -> None:
     parse()
-
-    print('----------')
-    print('Valves:')
-    for v in valves:
-        print(v,':' ,valves[v])
-    print('----------')
-    print('Valves with pressure:')
-    print(valves_with_pressure)
-    print('----------')
-    print('Distances:')
     get_distances()
-    for d in distances:
-        print(d, distances[d])
-    print('----------')
 
     print(f'Part 1: {max_flow()}')
     
