@@ -64,7 +64,7 @@ def get_distances() -> None:
 def parse() -> None:
     global valves, valves_with_pressure
 
-    with open('2022/Day-16/input.txt', 'r') as file:
+    with open('input.txt', 'r') as file:
         lines = file.readlines()
         for line in lines:
             valve: str = line.split()[1]

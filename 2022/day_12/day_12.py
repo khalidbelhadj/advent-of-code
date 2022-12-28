@@ -85,7 +85,8 @@ def a_star(grid: Grid, start: Node, end: Node) -> int | float:
             return float('inf')
 
     trail_length = 0
-    while (current := current.parent): trail_length += 1
+    while (current := current.parent):
+        trail_length += 1
     return trail_length
 
 
