@@ -1,7 +1,9 @@
+module Main where
+
 import Data.Char (isDigit)
 import Data.List (sortBy)
 import Data.List.Split (splitOn)
-import Data.Maybe
+import Data.Maybe ( fromJust, isNothing )
 
 data Tree a = Leaf a | Node [Tree a] deriving (Eq, Show)
 

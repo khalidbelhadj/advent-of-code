@@ -44,9 +44,9 @@ def parse() -> None:
 
 def main() -> None:
     parse()
-    print(f'Part 1: {max_score("AA", TOTAL_TIME, frozenset())}')
-    print(f'Part 2: {max_score("AA", TOTAL_TIME - 4, frozenset(), True)}')
-
+    opened: frozenset[str] = frozenset()
+    print(f'Part 1: {max_score("AA", TOTAL_TIME, opened.copy())}')
+    print(f'Part 2: {max_score("AA", TOTAL_TIME - 4, opened.copy(), True)}')
 
 
 if __name__ == '__main__':

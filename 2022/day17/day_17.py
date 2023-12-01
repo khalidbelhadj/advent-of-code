@@ -10,12 +10,13 @@ CONFIGS: list[list[complex]] = [[0 , 1, 2, 3],
 
 def main() -> None:
     pattern: list[int]
-    
-    with open('2022/Day-17/input2.txt', 'r') as file:
+    with open('test_input.txt', 'r') as file:
         pattern = list(map((lambda x: LEFT if x == '<' else RIGHT), [*file.read()]))
+    print(pattern)
 
-    
-    
 
 if __name__ == '__main__':
     main()
+    x: int = 2
+    if x == 2:
+        print("hello world")
