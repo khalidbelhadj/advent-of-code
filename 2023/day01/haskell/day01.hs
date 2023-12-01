@@ -39,7 +39,7 @@ part2 input = part1 nums
 
 main :: IO ()
 main = do
-  input <- lines <$> readFile "input.txt"
+  input <- lines <$> readFile "../input.txt"
 
   putStrLn $ "Part 1: " ++ show (part1 input)
   putStrLn $ "Part 2: " ++ show (part2 input)
