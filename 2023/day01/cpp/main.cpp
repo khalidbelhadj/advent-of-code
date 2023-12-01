@@ -24,10 +24,7 @@ int part_1(string input) {
     if (digits.empty()) continue;
 
     number.push_back(digits.front());
-
-    if (digits.size() > 1)
-        number.push_back(digits.back());
-
+    number.push_back(digits.back());
     sum += stoi(number);
   }
   return sum;
@@ -63,10 +60,6 @@ int part_2(string input) {
     }
 
     if (digits.size() == 0) continue;
-    if (digits.size() == 1) {
-      sum = sum + 10 * digits.front();
-      continue;
-    }
     sum += 10 * digits.front() + digits.back();
   }
 
