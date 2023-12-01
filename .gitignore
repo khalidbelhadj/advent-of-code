@@ -1,6 +1,9 @@
 */.DS_Store
 .mypy_cache
 note.md
+.vscode
+.idea
+__pycache__
 
 # Haskell stuff
 dist
