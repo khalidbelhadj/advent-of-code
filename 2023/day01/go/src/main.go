@@ -94,7 +94,6 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
 	input := string(data)
 
 	fmt.Println("Part 1:", part1(input))
