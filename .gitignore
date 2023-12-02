@@ -47,3 +47,4 @@ Cargo.lock
 
 *.dSYM
 main
+.DS_Store
