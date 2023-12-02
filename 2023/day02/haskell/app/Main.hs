@@ -62,7 +62,7 @@ part2 games = sum $ map power games
 
 main :: IO ()
 main = do
-  input <- Data.List.lines <$> readFile "../input.txt"
+  input <- lines <$> readFile "../input.txt"
 
   let games = map parseLine input
 
