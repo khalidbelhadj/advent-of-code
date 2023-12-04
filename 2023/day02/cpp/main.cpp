@@ -5,11 +5,11 @@
 
 using namespace std;
 
-const int RED_MAX = 12;
-const int GREEN_MAX = 13;
-const int BLUE_MAX = 14;
+#define RED_MAX 12
+#define GREEN_MAX 13
+#define BLUE_MAX 14
 
-string read_to_string(string file_name) {
+string read_to_string(string const& file_name) {
   ifstream file_stream(file_name);
   stringstream buffer;
   buffer << file_stream.rdbuf();
@@ -38,7 +38,7 @@ int main() {
     line = line.substr(line.find(":") + 1, line.size() - line.find(":") - 1);
 
     bool line_possible = true;
-    int curr_word_start = 0;
+    size_t curr_word_start = 0;
 
     int red_max = 0;
     int green_max = 0;
