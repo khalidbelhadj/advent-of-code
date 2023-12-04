@@ -19,31 +19,47 @@ parse = map (map (map (read :: String -> Int) . filter (not . null) . splitOn " 
 
     f = reverse . dropWhile isSpace
 
+matches :: [Card] -> [Int]
+matches = map (length . getSharedValues)
+
 points :: [Card] -> [Int]
-points cards = map (2 ^) $ filter (>= 0) $ map ((\x -> x - 1) . length . getSharedValues) cards
+points = map ((\x -> if x <= 0 then 0 else 2 ^ x) . (\x -> x - 1)) . matches
 
 part1 :: [Card] -> Int
 part1 = sum . points
 
+updateRange :: Int -> Int -> Int -> [Int] -> [Int]
+updateRange _ _ _ [] = []
+updateRange a b value ls = take a ls ++ u a b value (drop a ls)
+  where
+    u i p val [] = []
+    u i p val (x : xs)
+      | i <= p = x + val : u (i + 1) p val xs
+      | otherwise = x : u (i + 1) p val xs
 
--- part2 :: Int -> [(Int, [[Int]])] -> Int
--- part2 n [] = n
--- part2 n cards = n + part2 value (take value cards ++ drop 1 cards)
---   where
---     value = v cards !! cardNo
---     (cardNo, card) = head cards
+counts :: [Card] -> [Int]
+counts cards = f 1 (replicate (length cards) 1) cards
+  where
+    f i countsList cards
+      | i >= length cards = countsList
+      | otherwise = f (i + 1) (updateRange a b value countsList) cards
+      where
+        a = i + 1
+        b = i + ms !! i
+        value = countsList !! i
 
--- f n index cards = n * cardPoints + f cardPoints (index + 1) (take cardPoints cards ++ drop 1 cards)
---   where
---     cardPoints = points cards !! index
+        ms :: [Int]
+        ms = matches cards
 
---     nextBunch = take cardPoints cards ++ drop 1 cards
+part2 :: [Card] -> Int
+part2 cards = sum $ counts cards
 
+main :: IO ()
 main = do
-  input <- lines <$> readFile "../example_input.txt"
+  input <- lines <$> readFile "../input.txt"
   let cards = parse input
 
   let ys = map (2 ^) $ filter (>= 0) $ map ((\x -> x - 1) . length . getSharedValues) cards
 
-  putStrLn $ "Part 1: " ++ show (part1 cards)
-  -- putStrLn $ "Part 2: " ++ show (f 1 0 cards)
+  putStrLn $ "Part 2: " ++ show (part1 cards)
+  putStrLn $ "Part 2: " ++ show (part2 cards)
