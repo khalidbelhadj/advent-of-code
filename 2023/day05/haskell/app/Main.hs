@@ -4,7 +4,7 @@ module Main where
 import Data.Bifunctor (Bifunctor (bimap))
 import Data.Ix (Ix (inRange))
 import Data.List (isInfixOf)
-import Data.List.Split (keepDelimsL, splitOn)
+import Data.List.Split (splitOn)
 import Data.Maybe (fromMaybe, listToMaybe)
 
 data Entry = Entry
