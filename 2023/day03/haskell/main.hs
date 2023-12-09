@@ -70,7 +70,7 @@ part2 coords = sum $ map product pairs
 
 main :: IO ()
 main = do
-  input <- lines <$> readFile "../niko"
+  input <- lines <$> readFile "../input.txt"
 
   let coords = parse input
 
