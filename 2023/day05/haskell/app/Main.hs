@@ -91,7 +91,7 @@ minRanges = minimum . concatMap (\(a, b) -> [a, b])
 
 main :: IO ()
 main = do
-  input <- lines <$> readFile "../input.txt"
+  input <- lines <$> readFile "../niko.txt"
 
   let seeds = ints $ drop 7 $ head $ takeWhile (/= "") input
 
