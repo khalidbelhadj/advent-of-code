@@ -24,7 +24,7 @@ if [ ! -f "./$DAY/main.cpp" ]; then
 fi
 
 # Compile the main.cpp file
-g++ "./$DAY/main.cpp" -o "./$DAY/main"
+g++ "./$DAY/main.cpp" -o "./$DAY/main" -std=c++17
 
 # Check if the compilation was successful
 if [ $? -ne 0 ]; then
@@ -33,7 +33,8 @@ if [ $? -ne 0 ]; then
 fi
 
 # Run the compiled program
-cd ./$DAY && ./main
+echo "Running ./$DAY/main..."
+cd "./$DAY" && ./main
 
 # Clean up the compiled program
 rm ./main

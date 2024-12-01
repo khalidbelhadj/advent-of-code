@@ -1,5 +1,7 @@
+#include <climits>
 #include <fstream>
 #include <iostream>
+#include <optional>
 #include <sstream>
 #include <string>
 
@@ -19,4 +21,26 @@ std::vector<std::string> read_to_lines(std::string file_name) {
   std::string line;
   while (getline(buffer, line)) lines.push_back(line);
   return lines;
+}
+
+template <typename K, typename V>
+const V& get_or(const std::unordered_map<K, V>& m, const K& key,
+                const V& defval) {
+  auto it = m.find(key);
+  if (it == m.end()) {
+    return defval;
+  } else {
+    return it->second;
+  }
+}
+
+template <typename K, typename V>
+std::optional<V> get_option(const std::unordered_map<K, V>& m, const K& key,
+                            const V& defval) {
+  auto it = m.find(key);
+  if (it == m.end()) {
+    return std::nullopt;
+  } else {
+    return it->second;
+  }
 }

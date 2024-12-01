@@ -1,0 +1,15 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++17",
+      "-o",
+      "./day01/main",
+      "./day01/main.cpp"
+    ],
+    "directory": "/Users/khalid/Developer/advent-of-code/2024",
+    "file": "/Users/khalid/Developer/advent-of-code/2024/day01/main.cpp",
+    "output": "/Users/khalid/Developer/advent-of-code/2024/day01/main"
+  }
+]
