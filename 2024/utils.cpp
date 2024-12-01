@@ -43,8 +43,7 @@ const V& get_or(const std::unordered_map<K, V>& m, const K& key,
 }
 
 template <typename K, typename V>
-std::optional<V> get_option(const std::unordered_map<K, V>& m, const K& key,
-                            const V& defval) {
+std::optional<V> get_option(const std::unordered_map<K, V>& m, const K& key) {
   auto it = m.find(key);
   if (it == m.end()) {
     return std::nullopt;
