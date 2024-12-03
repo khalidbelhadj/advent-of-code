@@ -24,7 +24,7 @@ if [ ! -f "./$DAY/main.cpp" ]; then
 fi
 
 # Compile the main.cpp file
-g++ "./$DAY/main.cpp" -o "./$DAY/main" -std=c++17
+g++ "./$DAY/main.cpp" -o "./$DAY/main" -std=c++17 -Wall -Wextra -Werror -pedantic
 
 # Check if the compilation was successful
 if [ $? -ne 0 ]; then

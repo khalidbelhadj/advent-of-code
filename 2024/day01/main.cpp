@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cstddef>
 #include <iostream>
 #include <map>
 #include <string>
@@ -30,14 +31,14 @@ int main() {
     sort(left.begin(), left.end());
     sort(right.begin(), right.end());
 
-    int part_1 = 0;
-    for (int i = 0; i < left.size(); i++) {
+    size_t part_1 = 0;
+    for (size_t i = 0; i < left.size(); i++) {
         part_1 += abs(left[i] - right[i]);
     }
 
     unordered_map<int, int> right_count;
 
-    for (int i = 0; i < right.size(); i++) {
+    for (size_t i = 0; i < right.size(); i++) {
         right_count[right[i]]++;
     }
 

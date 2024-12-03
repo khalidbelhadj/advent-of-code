@@ -7,7 +7,7 @@ using namespace std;
 
 bool check(const vector<int> v) {
     int sign = (v[1] - v[0]) / abs(v[1] - v[0]);
-    for (int i = 1; i < v.size(); ++i) {
+    for (size_t i = 1; i < v.size(); ++i) {
         int delta = v[i] - v[i - 1];
         if (sign != delta / abs(delta)) return false;
         if (abs(delta) == 0 || abs(delta) > 3) return false;

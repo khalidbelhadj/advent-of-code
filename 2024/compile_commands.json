@@ -4,6 +4,10 @@
       "/usr/bin/g++",
       "-c",
       "-std=c++17",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-pedantic",
       "-o",
       "./day01/main",
       "./day01/main.cpp"
