@@ -1,7 +1,6 @@
 #include <algorithm>
 #include <cstddef>
 #include <iostream>
-#include <map>
 #include <string>
 #include <unordered_map>
 
@@ -45,7 +44,7 @@ int main() {
     int part_2 = 0;
 
     for (int num : left) {
-        int count = get_or(right_count, num, 0);
+        int count = right_count[num];
         part_2 += count * num;
     }
 
