@@ -6,8 +6,8 @@
 using namespace std;
 
 int main() {
-    // vector<string> lines = read_to_lines("./input.txt");
-    string input = read_to_string("./input.txt");
+    // vector<string> lines = read_to_lines("./example.txt");
+    string input = read_to_string("./example.txt");
 
     cout << "Part 1: "
          << "TODO" << endl;
